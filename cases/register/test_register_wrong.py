@@ -150,7 +150,9 @@ class TestWrongRegister:
             self.driver.find_element_by_id('signupConfirmPass').send_keys(kwargs['confirmPassword'])
         if 'identity' in kwargs:
             # 此处无法直接点击input的xpath，所以选择使用js点击方法选中
-            self.driver.execute_script('document.querySelectorAll("#signupForm > div:nth-child(5) > div > div.select-wrapper.mdb-select.colorful-select.dropdown-primary > input")[0].click()')
+            self.driver.execute_script('document.querySelectorAll("#signupForm > div:nth-child(5) > div > '
+                                       'div.select-wrapper.mdb-select.colorful-select.dropdown-primary > input")['
+                                       '0].click()')
             time.sleep(1)
             # wd.find_element_by_xpath('//span[text()=" 我是客户    "]').click()
             choice = kwargs['identity']
