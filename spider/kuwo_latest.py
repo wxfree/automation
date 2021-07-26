@@ -8,6 +8,7 @@ from mutagen.id3 import ID3, APIC, TIT2, TPE1, TALB
 
 # requests获得的数据，resp.text是str, resp.content是bytes
 # 优化措施1.根据第一条歌曲名是否包含Live，往后顺延
+# 孙燕姿 我怀念的 会报错
 
 class KuWoMusic:
     def __init__(self, keyword, need_download=0):
@@ -70,7 +71,9 @@ class KuWoMusic:
         print('info', self.info)
         print('rid', self.info[0]['rid'])
         resp = requests.get(url, params=self.params, headers=self.headers)
-        if resp.status_code == 200:
+        print('code', resp.status_code)
+        if resp.status_code == 200 and resp.text != 'failed':
+            print(resp.text)
             res = json.loads(resp.text)
             print(res['url'])
             if self.need_download == 0:
@@ -114,5 +117,6 @@ class KuWoMusic:
         music.save()
 
 
-kuwo = KuWoMusic('张宇 大女人', 1)
+musicName = input('请输入要下载的音乐:')
+kuwo = KuWoMusic(musicName, 1)
 kuwo.get_download_url()
