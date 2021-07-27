@@ -6,6 +6,16 @@
 5. 安装git，使用git bash, `where python/ which python`可以找到4的目录
 
 
-# git on macOS how to solve `LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443`
-1. `networksetup -setv6off Wi-Fi`
-2. `networksetup -setv6automatic Wi-Fi`
+# Problems
+1. git on macOS how to solve `LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443`
+    - `networksetup -setv6off Wi-Fi`
+    - `networksetup -setv6automatic Wi-Fi`
+    
+2. git on win10 how to solve `OpenSSL SSL_read: Connection was reset, errno 10054`
+    - open cmd, use `ipconfig /flushdns`
+    
+3. git on win10 how to solve `Author identity unknown`
+    - `cd .git`
+    - `git config user.name 'wxfree'`
+    - `git config user.email '383175243@163.com'`
+    
