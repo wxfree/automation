@@ -1,4 +1,7 @@
 from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
 import requests
 import json
@@ -38,6 +41,11 @@ class KuWoMusic:
         self.driver.maximize_window()
         self.driver.implicitly_wait(10)
         self.driver.get(url)
+        print("等待网页响应...")
+        # 需要等一下，直到页面加载完成
+        wait = WebDriverWait(self.driver, 10)
+        wait.until(expected_conditions.presence_of_element_located((By.CLASS_NAME, "search_list")))
+        print("正在获取网页数据...")
         d = self.driver.page_source
         soup = BeautifulSoup(d, 'html.parser')
         # self.driver.close()
