@@ -1,3 +1,5 @@
+import time
+
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
@@ -39,13 +41,14 @@ class KuWoMusic:
     def get_search_result(self):
         url = 'https://kuwo.cn/search/list?key=' + parse.quote(self.keyword)
         self.driver.maximize_window()
-        self.driver.implicitly_wait(10)
+        # 此处search_list是用js加载进来的，使用显式等待更好，否则无法获取完整页面代码
+        # self.driver.implicitly_wait(10)
         self.driver.get(url)
-        print("等待网页响应...")
-        # 需要等一下，直到页面加载完成
-        wait = WebDriverWait(self.driver, 10)
-        wait.until(expected_conditions.presence_of_element_located((By.CLASS_NAME, "search_list")))
-        print("正在获取网页数据...")
+        # print("等待网页响应...")
+        # wait = WebDriverWait(self.driver, 10)
+        # wait.until(expected_conditions.presence_of_element_located((By.CLASS_NAME, "search_list")))
+        # print("正在获取网页数据...")
+        time.sleep(1)
         d = self.driver.page_source
         soup = BeautifulSoup(d, 'html.parser')
         # self.driver.close()

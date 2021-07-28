@@ -18,4 +18,9 @@
     - `cd .git`
     - `git config user.name 'wxfree'`
     - `git config user.email '383175243@163.com'`
-    
+   
+4. selenium如何选择显式等待和隐式等待
+   - 当页面爬取部分存在ajax部分刷新的内容时，使用显示等待`implicitly_wait`
+   - 否则使用`WebDriver.until`
+   - 在获取page_source前使用time.sleep(5)也可以拿到完整页面源代码，1秒左右即可(这个方法貌似最简单)
+   
