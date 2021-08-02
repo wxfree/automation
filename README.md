@@ -28,3 +28,9 @@
    - Password for xxx:`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`
    - it lasts for three month
    
+# About pytest
+1. 如果看到`.pytest_cache`，可以执行
+   - `--last-failed`, 如果run的时候跟这个参数只会运行上次失败的用例，这就解决了上面说的需求。
+   - `--failed-first`，如果run的时候跟这个参数会先运行上次失败的case，然后再run其余的case。
+   - `--cache-show`，跟上个参数，会显示上次run的信息。
+   - `--cache-clear`, 在run前先把之前的cache清除。

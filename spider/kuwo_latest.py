@@ -1,5 +1,4 @@
 import time
-
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
@@ -11,9 +10,8 @@ from urllib import parse
 from mutagen.id3 import ID3, APIC, TIT2, TPE1, TALB
 
 
-# requests获得的数据，resp.text是str, resp.content是bytes
-# 优化措施1.根据第一条歌曲名是否包含Live，往后顺延
 # 孙燕姿 我怀念的 会报错
+
 
 class KuWoMusic:
     def __init__(self, keyword, need_download=0):
@@ -24,6 +22,7 @@ class KuWoMusic:
             @headers：模拟爬虫ua
             @items：搜索列表页结果
             @need_download:是否需要进行下载，默认为0
+            @index: 默认下载第一首，如果第一首下载链接获取不到，自动+1拿下一首
         """
         self.driver = webdriver.Chrome()
         self.keyword = keyword
@@ -36,6 +35,7 @@ class KuWoMusic:
                                       'like Gecko) Chrome/91.0.4472.164 Safari/537.36'}
         self.items = self.get_search_result()
         self.info = self.get_data()
+        self.index = 0
 
     # 根据搜索关键字查询并返回音乐列表
     def get_search_result(self):
@@ -77,12 +77,14 @@ class KuWoMusic:
         return song_info
 
     def get_download_url(self):
+        """@index 默认下载选项第一首"""
         url = 'https://kuwo.cn/url'
-        self.params['rid'] = self.info[0]['rid']
+        self.params['rid'] = self.info[self.index]['rid']
         print('info', self.info)
-        print('rid', self.info[0]['rid'])
+        print('rid', self.info[self.index]['rid'])
         resp = requests.get(url, params=self.params, headers=self.headers)
         print('code', resp.status_code)
+        print('request URL', resp.request.url)
         if resp.status_code == 200 and resp.text != 'failed':
             print(resp.text)
             res = json.loads(resp.text)
@@ -94,6 +96,9 @@ class KuWoMusic:
                 self.driver.close()
         else:
             print('没有找到下载链接')
+            self.index += 1
+            print('new index', self.index)
+            self.get_download_url()
 
     def get_file(self, url):
         resp = requests.get(url, headers=self.headers)
@@ -116,18 +121,28 @@ class KuWoMusic:
         """修改mp3中的元信息"""
         print(self.keyword)
         music = ID3('./' + self.keyword + '.mp3')
+        result = self.check_mp3_info()
         # music.add(APIC(  # 插入封面
         #     encoding=3,
         #     mime='image/jpeg',
         #     type=3,
         #     desc=u'Cover',
         #     data=self.info['picData']))
-        music.add(TIT2(encoding=3, text=self.info[0]['name']))  # 插入歌名
-        music.add(TPE1(encoding=3, text=self.info[0]['artist']))  # 插入作者
-        music.add(TALB(encoding=3, text=self.info[0]['album']))
+        music.add(TIT2(encoding=3, text=result['name']))  # 插入歌名
+        music.add(TPE1(encoding=3, text=result['artist']))  # 插入作者
+        music.add(TALB(encoding=3, text=result['album']))
         music.save()
 
+    def check_mp3_info(self):
+        result = self.info[self.index]
+        for item in result.keys():
+            if result[item] is None:
+                result[item] = ''
+        return result
 
 musicName = input('请输入要下载的音乐:')
+begin = time.time()
 kuwo = KuWoMusic(musicName, 1)
 kuwo.get_download_url()
+end = time.time()
+print(f'本次下载消耗了{end-begin}')
