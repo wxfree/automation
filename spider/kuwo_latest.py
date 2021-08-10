@@ -140,9 +140,10 @@ class KuWoMusic:
                 result[item] = ''
         return result
 
+
 musicName = input('请输入要下载的音乐:')
 begin = time.time()
-kuwo = KuWoMusic(musicName, 1)
-kuwo.get_download_url()
+ku_wo = KuWoMusic(musicName, 1)
+ku_wo.get_download_url()
 end = time.time()
-print(f'本次下载消耗了{end-begin}')
+print(f'本次下载消耗了{end - begin}')
