@@ -1,9 +1,4 @@
 import time
-from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.common.by import By
-from bs4 import BeautifulSoup
 import requests
 import json
 from urllib import parse
@@ -21,7 +16,6 @@ class KuWoMusic:
             @need_download:是否需要进行下载，默认为0
             @index: 默认下载第一首，如果第一首下载链接获取不到，自动+1拿下一首
         """
-        self.driver = webdriver.Chrome()
         self.keyword = keyword
         self.params = {
             'br': '320kmp3',
@@ -38,43 +32,42 @@ class KuWoMusic:
         self.info = self.get_data()
         self.index = 0
 
-    # 根据搜索关键字查询并返回音乐列表
+    # 一下两方法使用直接获取接口信息的方法获取音乐参数
     def get_search_result(self):
-        url = 'https://kuwo.cn/search/list?key=' + parse.quote(self.keyword)
-        self.driver.maximize_window()
-        # 此处search_list是用js加载进来的，使用显式等待更好，否则无法获取完整页面代码
-        # self.driver.implicitly_wait(10)
-        self.driver.get(url)
-        # print("等待网页响应...")
-        # wait = WebDriverWait(self.driver, 10)
-        # wait.until(expected_conditions.presence_of_element_located((By.CLASS_NAME, "search_list")))
-        # print("正在获取网页数据...")
-        time.sleep(1)
-        d = self.driver.page_source
-        soup = BeautifulSoup(d, 'html.parser')
-        # self.driver.close()
-        # 返回整个大区块，可以获得歌名、歌手、专辑、封面、时长
-        return soup.select('.song_item')
+        params = {
+            'key': parse.quote(self.keyword),
+            'pn': 1,
+            'rn': 30,
+            'httpStatus': 1,
+            'reqId': 'bf6d4fd1-fa4d-11eb-9620-fbd4984981ba'
+        }
+        url = f'https://kuwo.cn/api/www/search/searchMusicBykeyWord'
+        resp = requests.get(url, params=params, headers=self.headers)
+        print('status_code', resp.status_code)
+        print('text', resp.text)
+        if resp.status_code == 200:
+            json_resp = json.loads(resp.text)
+            return json_resp['data']['list']
 
-    # 返回歌曲数据
     def get_data(self):
         song_info = []
         for item in self.items:
-            song = item.select('.name')[0]
-            song_name = song.string
-            href = song.get('href')
-            rid = href.split('/')[2]
-            song_artist = item.select('.song_artist')[0].string
-            song_album = item.select('.song_album')[0].string
-            print(song_name, song_artist, song_album, href)
+            song_name = item['name']
+            rid = item['rid']
+            song_album = item['album']
+            song_artist = item['artist']
+            song_poster = item['pic']
+            song_duration = item['duration']
+            print(song_name, song_artist, song_album, rid, song_duration)
             if 'Live' not in song_name:
                 song_info.append({
                     'name': song_name,
                     'artist': song_artist,
+                    'rid': rid,
+                    'duration': song_duration,
                     'album': song_album,
-                    'rid': rid
+                    'poster': song_poster
                 })
-        print('song_info', song_info)
         return song_info
 
     def get_download_url(self):
@@ -90,11 +83,7 @@ class KuWoMusic:
             print(resp.text)
             res = json.loads(resp.text)
             print(res['url'])
-            if self.need_download == 0:
-                self.driver.get(res['url'])
-            else:
-                self.get_file(res['url'])
-                self.driver.close()
+            self.get_file(res['url'])
         else:
             print('没有找到下载链接')
             self.index += 1
@@ -128,7 +117,7 @@ class KuWoMusic:
         #     mime='image/jpeg',
         #     type=3,
         #     desc=u'Cover',
-        #     data=self.info['picData']))
+        #     data=result['poster']))
         music.add(TIT2(encoding=3, text=result['name']))  # 插入歌名
         music.add(TPE1(encoding=3, text=result['artist']))  # 插入作者
         music.add(TALB(encoding=3, text=result['album']))
