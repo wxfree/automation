@@ -35,14 +35,15 @@ class KuWoMusic:
     # 一下两方法使用直接获取接口信息的方法获取音乐参数
     def get_search_result(self):
         params = {
-            'key': parse.quote(self.keyword),
+            'key': self.keyword,    # 此处不需要编码，自动会搞
             'pn': 1,
-            'rn': 30,
+            'rn': 5,
             'httpStatus': 1,
             'reqId': 'bf6d4fd1-fa4d-11eb-9620-fbd4984981ba'
         }
-        url = f'https://kuwo.cn/api/www/search/searchMusicBykeyWord'
+        url = 'https://kuwo.cn/api/www/search/searchMusicBykeyWord'
         resp = requests.get(url, params=params, headers=self.headers)
+        print(resp.request.url)
         print('status_code', resp.status_code)
         print('text', resp.text)
         if resp.status_code == 200:
