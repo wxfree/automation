@@ -3,6 +3,7 @@ import requests
 import json
 from urllib import parse
 from mutagen.id3 import ID3, APIC, TIT2, TPE1, TALB
+import sys
 
 
 class KuWoMusic:
@@ -57,7 +58,7 @@ class KuWoMusic:
             rid = item['rid']
             song_album = item['album']
             song_artist = item['artist']
-            song_poster = item['pic']
+            # song_poster = item['pic']
             song_duration = item['duration']
             print(song_name, song_artist, song_album, rid, song_duration)
             if 'Live' not in song_name:
@@ -67,7 +68,7 @@ class KuWoMusic:
                     'rid': rid,
                     'duration': song_duration,
                     'album': song_album,
-                    'poster': song_poster
+                    # 'poster': song_poster
                 })
         return song_info
 
@@ -132,7 +133,9 @@ class KuWoMusic:
         return result
 
 
-musicName = input('请输入要下载的音乐:')
+# musicName = input('请输入要下载的音乐:')
+print('请输入要下载的音乐:')
+musicName = sys.stdin.readline().strip()
 begin = time.time()
 ku_wo = KuWoMusic(musicName, 1)
 ku_wo.get_download_url()
