@@ -19,10 +19,10 @@ class TestCustomerInterface:
         # }
         # print(self.token)
         # ----------------------------------------------------------------------------------------------------------------------------
+        # 未入驻客户的token
         self.headers = {
             'X-Access-Token': 'eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAAAKtWKi5NUrJSMjQxMjE1MzK0MDGxMLY0MjMwNFPSUUqtKFCyMjQzsjS3sDA0MNFRKi1OLQqpLEhVsjKuBQBf1GkoOwAAAA.gl6WNuea8MGBdU81jcP35rG7n-1_qnwMq-FJDsC1B9LQKC5bnH8hX19SJlDc4z6BOoD3NzgO9g6wKvRmEdw2Ig'
         }
-
 
     @classmethod
     def teardown_class(cls):
@@ -84,5 +84,15 @@ class TestCustomerInterface:
     #
     # def test_interface0008(self):
     #     """查看代理合同"""
-    #     resp = self.req('get', '/customer/boss/personal/project/contract/agencyContract')
+    #     resp = self.req('get', '/customer/boss/personal/project/contract/agencyContract', {'projectId': ''})
     #     assert resp['code'] == 500
+    #
+    # def test_interface0009(self):
+    #     """查看设计合同"""
+    #     resp = self.req('get', '/customer/boss/personal/project/contract/designContract', {'projectId': ''})
+    #     assert resp['code'] == 500
+
+    def test_interface0009(self):
+        """查看招投标文件"""
+        resp = self.req('get', '/customer/boss/personal/project/openBid/queryOpenBidFile', {'projectId': '', 'type': '2'})
+        assert resp['code'] == 500
