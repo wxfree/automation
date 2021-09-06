@@ -13,6 +13,7 @@
     
 2. git on win10 how to solve `OpenSSL SSL_read: Connection was reset, errno 10054`
     - open cmd, use `ipconfig /flushdns`
+    - `git config --global --unset http(s).proxy`
     
 3. git on win10 how to solve `Author identity unknown`
     - `cd .git`
@@ -25,7 +26,7 @@
    - 在获取page_source前使用time.sleep(5)也可以拿到完整页面源代码，1秒左右即可(这个方法貌似最简单)
    
 5. how to use token in git
-   - Password for xxx:`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`
+   - Password for xxx:`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`
    - it lasts for three month
    
 # About pytest
