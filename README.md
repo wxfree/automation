@@ -26,7 +26,7 @@
    - 在获取page_source前使用time.sleep(5)也可以拿到完整页面源代码，1秒左右即可(这个方法貌似最简单)
    
 5. how to use token in git
-   - Password for xxx:`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`
+   - Password for xxx:`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`
    - it lasts for three month
    
 # About pytest
