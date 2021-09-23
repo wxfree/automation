@@ -13,6 +13,8 @@
     
 2. git on win10 how to solve `OpenSSL SSL_read: Connection was reset, errno 10054`
     - open cmd, use `ipconfig /flushdns`
+    - `git config --global http.sslBackend 'openssl`
+    - `git config --global http.sslVerify 'false'`
     - `git config --global --unset http(s).proxy`
     
 3. git on win10 how to solve `Author identity unknown`
