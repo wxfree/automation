@@ -26,8 +26,8 @@ class KuWoMusic:
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML,like Gecko) Chrome/91.0.4472.164 Safari/537.36',
             'Referer': 'https://kuwo.cn/search/list?key=' + parse.quote(self.keyword),
-            'csrf': '2M93WAUL0L1',
-            'Cookie': 'kw_token=2M93WAUL0L1'
+            'csrf': '8RK5371VMBE',
+            'Cookie': 'kw_token=8RK5371VMBE'
         }
         self.items = self.get_search_result()
         self.info = self.get_data()
