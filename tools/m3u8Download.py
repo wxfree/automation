@@ -12,6 +12,8 @@ win32
 import platform
 platform.platform()
 Windows-10-10.0.18362-SP0
+.*?惰性匹配,匹配结果尽可能短
+.* 贪婪匹配,匹配结果尽可能长
 """
 
 headers = {

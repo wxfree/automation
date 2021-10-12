@@ -38,6 +38,10 @@
    - `--cache-show`，跟上个参数，会显示上次run的信息。
    - `--cache-clear`, 在run前先把之前的cache清除。
 
+# About PySide2
+1. `pip install pyside2`
+   - macOS Qt Designer `/usr/local/lib/python3.9/site-packages/PySide2/Designer.app/Contents/MacOS`
+
 # use git ssh key
 1. `git config --global --list` 验证邮箱与github注册时输入的是否一致
 2. 通过`git config --global user.name "wxfree"`,`git config --global user.email "xxxxxx@163.com"`设置全局用户名和邮箱
