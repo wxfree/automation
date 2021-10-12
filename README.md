@@ -37,3 +37,13 @@
    - `--failed-first`，如果run的时候跟这个参数会先运行上次失败的case，然后再run其余的case。
    - `--cache-show`，跟上个参数，会显示上次run的信息。
    - `--cache-clear`, 在run前先把之前的cache清除。
+
+# use git ssh key
+1. `git config --global --list` 验证邮箱与github注册时输入的是否一致
+2. 通过`git config --global user.name "wxfree"`,`git config --global user.email "xxxxxx@163.com"`设置全局用户名和邮箱
+3. `ssh-keygen -t rsa -c`,回车后输入自己的邮箱New comment：邮箱
+4. 到github添加秘钥,`settings->SSH and GPG keys->New SSH key`
+   - `cd ~/.ssh`
+   - `cat id_rsa.pub`
+   - 把里面的内容复制到里面去
+   - `ssh -T git@github.com`返回`Hi wxfree! You've successfully authenticated, but GitHub does not provide shell access`就正常了
