@@ -11,6 +11,7 @@ class Guess:
         self.app = QApplication([])
         self.window = QMainWindow()
         self.window.resize(640, 360)
+        self.window.setWindowTitle('猜数字')
         self.button = QPushButton('guess', self.window)
         self.button.resize(80, 25)
         self.button.move(260, 70)
@@ -63,5 +64,6 @@ class Guess:
         self.logText.clear()
 
 
-g = Guess()
-g.begin()
+if __name__ == '__main__':
+    g = Guess()
+    g.begin()
