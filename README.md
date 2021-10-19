@@ -51,3 +51,4 @@
    - `cat id_rsa.pub`
    - 把里面的内容复制到里面去
    - `ssh -T git@github.com`返回`Hi wxfree! You've successfully authenticated, but GitHub does not provide shell access`就正常了
+   - 如果以上还不行`git remote origin set-url git@github.com:wxfree/automation.git`来一发最后行不行我也不晓得
