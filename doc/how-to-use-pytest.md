@@ -37,7 +37,21 @@
    - 编码：必须是ANSI,可以使用notepad++修改编码格式(这个好像不一定)
    - 作用：改变pytest默认行为
    - 运行的规则：都会读取这个配置文件
+      - [pytest]
+      - `addopts=-sv`命令行的参数，用空格分隔
+      - `testpaths=./cases`，测试用例的路径
+      - `python_files=test_*.py`，模块名的规则
+      - `python_classes=Test*`，类名的规则
+      - `python_functions=test`，方法名的规则
+      - `narkers= smoke:xxx ui: xxx`
 
    > 参数详解
    - `-s`输出调试信息，包括打印的信息;`-v`显示更详细的信息
    - `-n 2`两个线程跑,`--max-fail=2`出现两次用例失败就停止,`-x 1`出现1次用例失败立即停止
+
+9. 执行测试用例的顺序是怎么样的
+   - unittest：ASCII顺序
+   - pytest默认从上到下
+   - 改变默认的执行顺序：使用mark标记
+
+10. 如何进行分组(冒烟、分模块执行、分接口和web执行)
