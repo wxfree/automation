@@ -1,0 +1,13 @@
+- name: 关注建筑师作品
+  request:
+    method: get
+    url: /customer/boss/personal/designerCases/list
+    params:
+  validate: None
+
+- name: 关注的文章
+  request:
+    method: get
+    url: /customer/boss/personal/article/list
+    params:
+  validate: None
