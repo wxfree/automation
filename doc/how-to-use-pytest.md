@@ -55,3 +55,10 @@
    - 改变默认的执行顺序：使用mark标记
 
 10. 如何进行分组(冒烟、分模块执行、分接口和web执行)
+
+# 如何生成漂亮的allure报告
+1. github官网下载allure，下载之后解压，并将bin路径配置到环境变量
+2. 验证allure是否安装成功，`allure --version`
+3. 生成临时json格式的报告
+   - `pytest.ini`中配置`addopts = --alluredir ../temps --clean-alluredir`
+   - `allure generate ./temps -o ./reports --clean`
