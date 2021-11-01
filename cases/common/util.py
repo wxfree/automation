@@ -5,6 +5,7 @@ import requests
 class Util:
     host = 'http://106.14.40.137:8080'
     # host = 'https://www.coolarch.net'
+    session = requests.session()
 
     @classmethod
     def read_yaml(cls, path):
@@ -27,9 +28,9 @@ class Util:
         method = str(method).lower()
         resp = None
         if method == 'get':
-            resp = requests.get(url, params=data, **kwargs)
+            resp = Util.session.get(url, params=data, **kwargs)
         else:
-            resp = requests.request(method, url, data=data, **kwargs)
+            resp = Util.session.request(method, url, data=data, **kwargs)
         return resp
 
     @classmethod
