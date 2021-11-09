@@ -1,6 +1,6 @@
 import yaml
 import requests
-
+import logging
 
 class Util:
     host = 'http://106.14.40.137:8080'
@@ -37,6 +37,18 @@ class Util:
     def get_real_path(cls, route):
         """拼接完整的接口地址"""
         return cls.host + route
+
+    @staticmethod
+    def set_log():
+        logger = logging.getLogger()
+        formatter = logging.Formatter('%(asctime)s  %(pathname)s[line:%(lineno)d]  %(levelname)s: %(message)s')
+        sh = logging.StreamHandler()
+        logger.addHandler(sh)
+        sh.setFormatter(formatter)
+        fh = logging.FileHandler('log.txt', encoding='utf-8')
+        logger.addHandler(fh)
+        fh.setFormatter(formatter)
+        return logger
 
 
 if __name__ == '__main__':
