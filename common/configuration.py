@@ -12,10 +12,10 @@ class Configuration:
     MOBILE = False
     # 配置是否无头浏览器
     HEADLESS = False
-    # extract.yaml路径
-    extract_path = os.getcwd() + '/extract.yaml'
     # root_path项目根目录
-    root_path = os.getcwd()
+    root_path = '/data/www/workspace/python-learn/automation'
+    # extract.yaml路径
+    extract_path = root_path + '/extract.yaml'
     db_config = {
         'host': 'rm-uf6a335vgas97gum8ko.mysql.rds.aliyuncs.com',
         'user': 'wangxin',

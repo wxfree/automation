@@ -1,10 +1,11 @@
 import shutil
 from mutagen import File
 import os
-import logging
+from automation.common.log_service import LogService
 import datetime
 import traceback
 from mutagen.id3 import ID3, APIC, TIT2, TPE1, TALB
+log = LogService(__name__).log()
 # os.mkdir(root_dir + '/文件夹名')正反斜杠好像都行
 # 备份之前要考虑备份文件夹是否存在，如果不存在直接复制黏贴，如果存在就要研究如何删掉这个文件夹os.remove, os.rmdir
 # 使用time模块创建备份文件夹精确到秒就不会出现重复备份文件夹问题了，和谐解决上面的问题
@@ -35,7 +36,6 @@ class ClassifyMp3:
         """将当前rootPath下的mp3文件移动到相应歌手的文件夹下"""
         for item in os.listdir():
             try:
-                # print(item)
                 # mac会有很多.DS_Store文件
                 if item == '.DS_Store':
                     continue
@@ -44,7 +44,7 @@ class ClassifyMp3:
                     # 使用mutagen获取mp3歌手、专辑、歌名信息，专辑信息暂时也没啥用，分类完成后再次根据专辑名细分(暂时无用)
                     target_file = File(music_path)
                     if not target_file:
-                        logging.error(f"line-45:{music_path}:不存在歌曲信息字段")
+                        log.error(f"line-45:{music_path}:不存在歌曲信息字段")
                         continue
                     author = target_file['TPE1'].text[0]
                     title = target_file['TIT2'].text[0]
@@ -52,7 +52,7 @@ class ClassifyMp3:
                     if author and title and album:
                         # 拼接歌手名作为文件夹
                         target_path = self.rootPath + '/' + author
-                        logging.info(f"{target_path}")
+                        log.info(f"{target_path}")
                         if os.path.exists(target_path):
                             # 存在这个文件夹就直接把mp3文件移动到这个文件夹下
                             shutil.move(music_path, target_path)
@@ -61,32 +61,32 @@ class ClassifyMp3:
                             os.mkdir(target_path)
                             # 如果目标文件夹中已经有了该曲目咋办,try里可以弄到
                             shutil.move(music_path, target_path)
-                        print(f"{item} 分类成功")
+                        log.info(f"{item} 分类成功")
             except KeyError:
-                print(f"{item} 音乐信息不完善")
-                # logging.error(f"{traceback.format_exc()}")
+                log.info(f"{item} 音乐信息不完善")
+                # log.error(f"{traceback.format_exc()}")
                 continue
             except FileNotFoundError:
-                print(f"{item} 音乐信息不完善")
-                logging.error(f"{traceback.format_exc()}")
+                log.info(f"{item} 音乐信息不完善")
+                log.error(f"{traceback.format_exc()}")
                 continue 
             except shutil.Error:
-                logging.error(f"{traceback.format_exc()}")
+                log.error(f"{traceback.format_exc()}")
                 continue 
 
     def move_file_out_folder(self):
         """将rootPath下的各种mp3文件移动到rootPath下,要保证第一层文件夹下没有mp3文件"""
         for root, dirs, files in os.walk(self.rootPath):
             try:
-                print(files)
+                log.info(files)
                 if len(files) > 0:
                     for file in files:
                         # 只关心MP3文件
                         if file != '.DS_Store' and file.endswith('.mp3'):
-                            print(file)
+                            log.info(file)
                             shutil.move(root + '/' + file, self.rootPath)
             except shutil.Error:
-                logging.error(f"{traceback.format_exc}")
+                log.error(f"{traceback.format_exc}")
                 continue
 
 
@@ -98,15 +98,15 @@ class ClassifyMp3:
         music.add(TPE1(encoding=3, text=author))  # 插入作者
         music.add(TALB(encoding=3, text=album))
         music.save()
-        print(File(path))
+        log.info(File(path))
 
 
 root_dir = r'/Users/wangxin/Downloads/music'
 mp3 = ClassifyMp3(root_dir)
 # 把所有文件夹中的音乐挪到外层
-# mp3.move_file_out_folder()
+mp3.move_file_out_folder()
 # 把所有音乐按歌手名建文件夹并分类
 # mp3.move_file_into_folder()
 # 根据音乐地址,修改音乐的歌名、作者、专辑
-mp3.set_mp3_info('/Users/wangxin/Downloads/music/情歌.mp3', '情歌', '梁静茹', '静茹&情歌-别再为他流泪')
+# mp3.set_mp3_info('/Users/wangxin/Downloads/music/情歌.mp3', '情歌', '梁静茹', '静茹&情歌-别再为他流泪')
 # ClassifyMp3.set_mp3_info('/Users/wangxin/Downloads/music/honey.mp3', 'honey', '王心凌', 'Honey')
