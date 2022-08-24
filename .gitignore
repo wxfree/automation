@@ -5,3 +5,4 @@ __pycache__/
 extract.yaml
 /log/*
 /reports/
+/scrapy_project/*

@@ -2,6 +2,7 @@ import os
 
 
 class Configuration:
+    PROJECT_NAME = 'automation'
     # 正式环境
     PROD_HOST = 'http://www.coolarch.net/html'
     # 测试环境
@@ -12,8 +13,10 @@ class Configuration:
     MOBILE = False
     # 配置是否无头浏览器
     HEADLESS = False
-    # root_path项目根目录
-    root_path = '/data/www/workspace/python-learn/automation'
+    # 获取文件目录
+    cur_path = os.path.abspath(os.path.dirname(__file__))
+    # 获取项目根路径，内容为当前项目的名字
+    root_path = cur_path[:cur_path.find(PROJECT_NAME)+len(PROJECT_NAME)]
     # extract.yaml路径
     extract_path = root_path + '/extract.yaml'
     db_config = {
