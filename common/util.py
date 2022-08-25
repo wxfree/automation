@@ -15,9 +15,12 @@ class Util:
     @staticmethod
     def read_yaml(path):
         # log.info(f"当前yaml路径是 {path}")
-        with open(path, encoding='utf-8', mode='r') as f:
-            value = yaml.load(f, Loader=yaml.FullLoader)
-            return value
+        try:
+            with open(path, encoding='utf-8', mode='r') as f:
+                value = yaml.load(f, Loader=yaml.FullLoader)
+                return value
+        except FileNotFoundError:
+            log.info(f"{path} is not exist!")
 
     def read_key(self, path, key):
         resp = self.read_yaml(path)
