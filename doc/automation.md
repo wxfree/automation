@@ -75,3 +75,20 @@
 # 和Jenkins持续集成
 1. 构建：执行windows批处理命令
 2. 构建后：Publish HTML Reports
+
+
+# httprunner
+1. 安装`pip install httprunner`
+2. 必须知道的五个httprunner的命令
+    - httprunner 主命令 用于所有功能
+    - hrun 用于运行yaml/json/pytest测试用例
+    - hmake 用于将yaml/json测试用例转化成pytest文件
+    - har2case 用于将har文件转化成yaml/json/pytest测试用例
+    - locust 用于性能测试 bnd21
+
+
+
+# UI自动化测试
+1. 元素定位-最初级的自动化
+    - 元素无法定位的原因
+        - 
