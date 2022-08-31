@@ -21,6 +21,25 @@
 5. Referer
 6. Content-Type:
 
+# 接口自动化测试框架规则
+1. 必须有四个一级关键字: name、base_url、request、validate
+2. 在request一级关键字下必须包括两个二级关键字: method、url
+3. 传参方式: 在request一级关键字下，通过二级关键字参数
+    - 如果是get请求，通过params传参
+    - 如果是post请求
+        - 传json格式， 通过json关键字传参
+        - 传表单格式， 通过data关键字传参
+4. 如果需要做接口关联，那么必须使用一级关键字 extract
+    - 如json提取方式
+        """js
+        extract:
+            access_token: access_token
+        """
+    - 如：正则表达式提取方式
+        """
+            extract:
+                access_token: '"access_token":"(.*?)"'
+        """
 # 接口测试流程和方案
 ## ☆☆一个接口会设计多少个测试用例 一般20-30比较合适
 1. 拿到api文档(规范文档:swagger/showdoc)
