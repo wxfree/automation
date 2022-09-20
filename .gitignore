@@ -1,6 +1,7 @@
 __pycache__/
 /.pytest_cache/
 .DS_STORE
+._.DS_Store
 /cases/reports/
 extract.yaml
 /log/*
